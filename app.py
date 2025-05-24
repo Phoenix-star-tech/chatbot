@@ -119,13 +119,14 @@ def chat():
     data = request.get_json()
     message = data.get("message", "")
     msg_type = data.get("type", "chat")
+    user_id = data.get("user_id", "default")  # Optional, for context tracking
 
     if msg_type == "search":
         try:
             summary = wikipedia.summary(message, sentences=2, auto_suggest=True, redirect=True)
             return jsonify({"response": summary})
         except wikipedia.exceptions.DisambiguationError as e:
-            options = e.options[:3]  # Limit to 3 suggestions
+            options = e.options[:3]
             return jsonify({"response": f"Too many results. Try something more specific like: {options}"})
         except wikipedia.exceptions.PageError:
             return jsonify({"response": "Couldn't find anything on Wikipedia 😕"})
@@ -133,8 +134,8 @@ def chat():
             return jsonify({"response": f"Error: {str(e)}"})
 
     else:
-        # Simple AI fallback logic (replace this with real GPT or custom logic)
-        return jsonify({"response": f"Yo! What's up?" if 'hi' in message.lower() else f"You said: {message}"})
+        response = get_response(message, user_id=user_id)
+        return jsonify({"response": response})
 
 if __name__ == "__main__":
     app.run(debug=True)
