@@ -44,7 +44,7 @@ emotion_responses = {
     "i feel stressed": "Take a deep breath... I'm here with you 💆‍♀️",
 }
 
-greetings = ["hi", "hello", "hey", "good morning", "good evening", "good afternoon"]
+greetings = ["hi","hey", "hello", "good morning", "good evening", "good afternoon"]
 farewells = ["bye", "see you", "take care", "good night"]
 
 def clean_message(message):
